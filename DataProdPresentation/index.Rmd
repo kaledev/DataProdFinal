@@ -1,0 +1,115 @@
+---
+title       : Developing Data Products
+subtitle    : Course Project
+author      : Kaledev
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Titanic Survivor Statistics - Shiny App
+This application calculates survivor statistics based upon the Titanic
+dataset. The dataset is broken apart by Class, Sex, Age, and the number
+of those who survived the sinking of the ship Titanic in 1912 in those 
+groups. The user can explore by selecting different combinations of 
+these variables.
+      
+```{r, echo=FALSE}
+library(datasets)
+data(Titanic)
+titanic <- as.data.frame(Titanic)
+```
+
+```{r}
+head(titanic)
+```
+
+---
+
+## Data Analysis
+
+There are statistics on a total of 711 survivors and 1490 who did not survive the event.
+
+```{r}
+sum(titanic[titanic$Survived=='Yes',5])
+sum(titanic[titanic$Survived=='No',5])
+```
+
+---
+
+## Data Analysis
+
+We can see that among all groups - Female's on the 1st Class had the highest survival rates for Adults. Below we see a 97% rate for Adult females. Children tended to have the highest percentage overall, but the amount of children on board were extremely low compared to adults.
+
+```{r, echo=FALSE}
+bargraph <- barplot(titanic[titanic$Class == '1st' &
+              titanic$Sex == 'Female' &
+              titanic$Age == 'Adult',5],
+        col=c("red","green"),
+        names.arg = titanic[titanic$Class == '1st' &
+              titanic$Sex == 'Female' &
+              titanic$Age == 'Adult',4],
+        ylab="Number of Survivors",
+        xlab="Survived")
+text(bargraph, titanic[titanic$Class == '1st' &
+              titanic$Sex == 'Female' &
+              titanic$Age == 'Adult',5],
+                       labels=titanic[titanic$Class == '1st' &
+              titanic$Sex == 'Female' &
+              titanic$Age == 'Adult',5],
+                       pos=1, offset=.2)
+```
+
+---
+
+## Data Analysis
+
+2nd Class Males had the lowest survival rate at only 8% as shown below. 3rd and Crew class had many more deaths for males when ignoring the survival rates.
+
+```{r, echo=FALSE}
+bargraph <- barplot(titanic[titanic$Class == '2nd' &
+              titanic$Sex == 'Male' &
+              titanic$Age == 'Adult',5],
+        col=c("red","green"),
+        names.arg = titanic[titanic$Class == '2nd' &
+              titanic$Sex == 'Male' &
+              titanic$Age == 'Adult',4],
+        ylab="Number of Survivors",
+        xlab="Survived")
+text(bargraph, titanic[titanic$Class == '2nd' &
+              titanic$Sex == 'Male' &
+              titanic$Age == 'Adult',5],
+                       labels=titanic[titanic$Class == '2nd' &
+              titanic$Sex == 'Male' &
+              titanic$Age == 'Adult',5],
+                       pos=1, offset=.2)
+```
+
+---
+
+## Data Analysis Cont.
+
+We can see this drastic loss for the male crew below. Given the large amount of crew compared with passengers, the survival rate is statistically higher for the Crew vs. the previous 2nd Class graph.
+
+```{r, echo=FALSE}
+bargraph <- barplot(titanic[titanic$Class == 'Crew' &
+              titanic$Sex == 'Male' &
+              titanic$Age == 'Adult',5],
+        col=c("red","green"),
+        names.arg = titanic[titanic$Class == 'Crew' &
+              titanic$Sex == 'Male' &
+              titanic$Age == 'Adult',4],
+        ylab="Number of Survivors",
+        xlab="Survived")
+text(bargraph, titanic[titanic$Class == 'Crew' &
+              titanic$Sex == 'Male' &
+              titanic$Age == 'Adult',5],
+                       labels=titanic[titanic$Class == 'Crew' &
+              titanic$Sex == 'Male' &
+              titanic$Age == 'Adult',5],
+                       pos=1, offset=.2)
+```
